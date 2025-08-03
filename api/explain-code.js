@@ -1,5 +1,4 @@
-const jwt = require('jsonwebtoken');
-const axios = require('axios');
+import { GoogleGenAI } from "@google/genai";
 
 //const JWT_SECRET = process.env.JWT_SECRET;
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
@@ -21,17 +20,14 @@ module.exports = async (req, res) => {
   try {
     //jwt.verify(token, JWT_SECRET);
 
-    const geminiResponse = await axios.post(
-      'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent',
-      {
-        contents: [{ parts: [{ text: `Explain this code: ${code}` }] }],
-      },
-      {
-        headers: { 'x-goog-api-key': GEMINI_API_KEY },
-      }
-    );
+    const ai = new GoogleGenAI({apiKey: GEMINI_API_KEY});
 
-    const explanation = geminiResponse.data.candidates?.[0]?.content?.parts?.[0]?.text;
+    const result = await ai.models.generateContent({
+    model: "gemini-2.5-flash",
+    contents: [{ parts: [{ text: `Explain this code: ${code}` }] }],
+  });
+
+    const explanation = result.text;
 
     if (!explanation) {
       return res.status(502).json({ message: 'No explanation returned by Gemini.' });
