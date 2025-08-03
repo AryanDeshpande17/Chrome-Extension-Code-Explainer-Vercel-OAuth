@@ -1,5 +1,5 @@
 // api/test.js
 
 export default function handler(req, res) {
-  res.status(200).json({ message: "API is alive" });
+  return res.status(200).json({ message: "API is alive" });
 }
