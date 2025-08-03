@@ -14,7 +14,9 @@ export default async function handler(req, res) {
 
     const result = await ai.models.generateContent({
       model: "gemini-2.5-flash",
-      contents: [{ parts: [{ text: `Explain this code:\n${code}` }] }],
+      contents: [{ parts: [{ text: `Explain this code:\n${code} \n
+                            depending on the complexity of the code and the context(if any),
+                            gauge on your own how long the answer should be and provide it accordingly.` }] }],
     });
 
     console.log("RAW RESPONSE:", result);
