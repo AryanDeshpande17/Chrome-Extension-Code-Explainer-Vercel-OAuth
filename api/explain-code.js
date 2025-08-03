@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
 
-const JWT_SECRET = process.env.JWT_SECRET;
+//const JWT_SECRET = process.env.JWT_SECRET;
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 module.exports = async (req, res) => {
@@ -10,16 +10,16 @@ module.exports = async (req, res) => {
   }
 
   const { code } = req.body;
-  const authHeader = req.headers.authorization;
+//  const authHeader = req.headers.authorization;
 
-  if (!authHeader) {
-    return res.status(401).json({ message: 'Authorization header is missing.' });
-  }
+//   if (!authHeader) {
+//     return res.status(401).json({ message: 'Authorization header is missing.' });
+//   }
 
-  const token = authHeader.split(' ')[1];
+//  const token = authHeader.split(' ')[1];
 
   try {
-    jwt.verify(token, JWT_SECRET);
+    //jwt.verify(token, JWT_SECRET);
 
     const geminiResponse = await axios.post(
       'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent',
