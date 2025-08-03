@@ -87,5 +87,8 @@ app.post('/api/explain-code', async (req, res) => {
     }
 });
 
+app.get('/api/test', (req, res) => {
+  res.json({ message: "Server is alive!" });
+});
 // Export the Express app instance so Vercel can run it as a serverless function
 module.exports = serverless(app);
