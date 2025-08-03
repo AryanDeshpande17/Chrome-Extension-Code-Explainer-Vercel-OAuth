@@ -1,12 +1,10 @@
-// api/explain-code.js
-
-import jwt from 'jsonwebtoken';
-import axios from 'axios';
+const jwt = require('jsonwebtoken');
+const axios = require('axios');
 
 const JWT_SECRET = process.env.JWT_SECRET;
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
@@ -33,11 +31,16 @@ export default async function handler(req, res) {
       }
     );
 
-    const explanation = geminiResponse.data.candidates[0].content.parts[0].text;
-    res.status(200).json({ explanation });
+    const explanation = geminiResponse.data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+    if (!explanation) {
+      return res.status(502).json({ message: 'No explanation returned by Gemini.' });
+    }
+
+    return res.status(200).json({ explanation });
 
   } catch (error) {
     console.error('API Call Error:', error.message || error);
-    res.status(500).json({ message: 'An error occurred while getting the explanation.' });
+    return res.status(500).json({ message: 'An error occurred while getting the explanation.' });
   }
-}
+};
