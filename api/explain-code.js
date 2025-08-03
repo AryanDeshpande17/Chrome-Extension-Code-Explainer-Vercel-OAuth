@@ -17,13 +17,15 @@ export default async function handler(req, res) {
       contents: [{ parts: [{ text: `Explain this code:\n${code}` }] }],
     });
 
-    const explanation = result.response.candidates?.[0]?.content?.parts?.[0]?.text;
+    // const explanation = result.response.candidates?.[0]?.content?.parts?.[0]?.text;
 
-    if (!explanation) {
-      return res.status(502).json({ message: 'No explanation returned by Gemini.' });
-    }
+    // if (!explanation) {
+    //   return res.status(502).json({ message: 'No explanation returned by Gemini.' });
+    // }
 
-    return res.status(200).json({ explanation });
+    // return res.status(200).json({ explanation });
+
+    console.log("RAW RESPONSE:", result);
 
   } catch (error) {
     console.error("API Call Error:", error);
