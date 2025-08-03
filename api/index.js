@@ -3,11 +3,13 @@
 // ====================================================================
 
 const express = require('express');
-const app = express();
+const serverless = require('serverless-http');
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
 const cors = require('cors');
 require('dotenv').config();
+
+const app = express();
 
 // Use environment variables for secrets
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -86,4 +88,4 @@ app.post('/api/explain-code', async (req, res) => {
 });
 
 // Export the Express app instance so Vercel can run it as a serverless function
-module.exports = app;
+module.exports = serverless(app);
