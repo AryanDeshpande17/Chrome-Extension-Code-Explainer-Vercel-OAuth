@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   }
 
   const { code } = req.body;
-
+  console.log("Selected text being sent:", code);
   try {
     const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 
