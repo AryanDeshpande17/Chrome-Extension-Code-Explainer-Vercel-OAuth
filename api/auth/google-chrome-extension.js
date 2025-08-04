@@ -18,7 +18,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const response = await axios.get(`https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`);
+    const response = await axios.get(`https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=${idToken}`);
     const userInfo = response.data;
 
     if (userInfo.aud !== GOOGLE_CLIENT_ID) {
@@ -26,12 +26,14 @@ export default async function handler(req, res) {
     }
 
     const userId = userInfo.sub;
-    const sessionToken = jwt.sign({ userId }, JWT_SECRET, { expiresIn: '1d' });
+    const email = userInfo.email;
 
-    res.json({ sessionToken });
+    const sessionToken = jwt.sign({ userId, email }, JWT_SECRET, { expiresIn: '1d' });
+
+    return res.status(200).json({ sessionToken });
 
   } catch (error) {
-    console.error('Authentication Error:', error.message || error);
+    console.error('Authentication Error:', error.response?.data || error.message || error);
     res.status(500).json({ message: 'Failed to authenticate.' });
   }
 }
